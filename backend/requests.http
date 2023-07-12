@@ -1,0 +1,2 @@
+### ping servicio
+GET http://localhost:3000/auth/ping

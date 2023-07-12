@@ -1,0 +1,10 @@
+PORT= 3001
+
+JWT_SECRET=./private.pem
+JWT_EXPIRES_IN='1h'
+
+
+DB_HOST=sql9.freemysqlhosting.net
+DB_USER=sql9624434
+DB_PASSWORD=q4FnvMqDVi
+DB_DATABASE=sql9624434

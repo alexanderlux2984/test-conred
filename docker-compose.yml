@@ -1,0 +1,73 @@
+version: '3'
+
+networks:
+  conrednet:
+    name: conrednet
+    driver: bridge
+
+services:
+
+  mysqldb:
+    image: mysql:8.0
+    container_name: mysqldb
+    hostname: mysqldb 
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - 3306:3306
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ./backend/db_model/data:/var/lib/mysql
+      - ./backend/db_model/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - conrednet
+
+  # auth:
+  #   build: ./microservices/authentication
+  #   env_file:
+  #     - ./.env 
+  #   container_name: auth
+  #   hostname: auth 
+  #   restart: always
+  #   depends_on:
+  #     - mysqldb
+  #   ports:
+  #     - 3000:3000
+  #   networks:
+  #     - conrednet
+  
+  # register:
+  #   build: ./microservices/register
+  #   env_file:
+  #     - ./.env 
+  #   container_name: register
+  #   hostname: register 
+  #   restart: always
+  #   depends_on:
+  #     - mysqldb
+  #   ports:
+  #     - 3001:3000
+  #   networks:
+  #   - conrednet
+
+  # service:
+  #   build: ./
+  #   env_file:
+  #     - .env 
+  #   container_name: service
+  #   hostname: service 
+  #   restart: always
+  #   depends_on:
+  #     - mysqldb
+  #   ports:
+  #     - 3002:3000
+  #   networks:
+  #     - conrednet
+
+  frontend:
+    build: ./frontend
+    container_name: frontend_conred
+    ports:
+    - "80:80"
+    restart: always
